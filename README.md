@@ -3,8 +3,8 @@
 
 ## Compile and run .asm files
 ```Bash
-# vm
+# Build
 nasm src/main.asm -f bin -o bin/boot_sector.bin
-# Host
+# Run
 qemu-system-x86_64 bin/boot_sector.bin
 ```
