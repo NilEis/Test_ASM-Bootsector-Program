@@ -3,11 +3,14 @@
 
 call set_vga_mode
 
-
 mov al, 05
-mov cx, 10
+mov cx, 0
 mov dx, 10
+loop:
 call set_pixel
+add cx,2
+cmp cx,110
+jnz loop
 
 mov bp, hwString          ; Set bp = hwString + offset
 mov cx, [hwLength]        ; Set String length
