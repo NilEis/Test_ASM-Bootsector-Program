@@ -3,8 +3,8 @@
 
 call set_vga_mode
 
-mov cx, 150
-mov dx, 150
+mov cx, 160
+mov dx, 100
 mov al, 05
 loop:
 ; ---------------------------------------
