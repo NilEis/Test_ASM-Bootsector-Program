@@ -57,3 +57,4 @@ dkms.conf
 *.bin
 build.sh
 build_environment/Dockerfile
+x86.pdf
