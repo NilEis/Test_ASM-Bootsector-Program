@@ -6,7 +6,7 @@ print_string:
     xor ax,ax                 ; ╝
     mov al, 1                 ; Set Write mode
     mov dh, 0                 ; Set row
-    mov dl, 0                 ; Set column
+    mov dl, 1                 ; Set column
     mov bl, 0xf               ; Set text-color to white
     mov ah, 13h               ; Set instruction 13h
     int 0x10
