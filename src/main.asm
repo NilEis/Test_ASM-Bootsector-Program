@@ -1,10 +1,13 @@
 [bits 16]                 ; Set 16 bit mode
 [org 0x7c00]              ; Offset added to all adresses
 
-; Set 80x25 16-color text mode
-xor ah, ah                ; Set ah = 0
-mov al, 0x03              ; Set instruction 0x03
-int 0x10                  ; Call int 0x10
+call set_vga_mode
+
+
+mov al, 05
+mov cx, 10
+mov dx, 10
+call set_pixel
 
 mov bp, hwString          ; Set bp = hwString + offset
 mov cx, [hwLength]        ; Set String length
