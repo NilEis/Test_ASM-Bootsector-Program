@@ -12,6 +12,34 @@ print_string:
     int 0x10
 ret
 
+; Set bp to the address of the string
+print:
+    mov ah, 03h
+    xor bh, bh
+    int 10h
+    mov cx, 1
+    print_loop:
+        mov al, [bp]
+        cmp al, 0
+        je print_exit
+        mov ah, 0Ah
+        int 10h
+        call cursor_move
+        inc bp
+        jmp print_loop
+    print_exit:
+ret
+
+cursor_move:
+    inc dl
+    cmp dl, 80
+    jl no_line_break
+    xor dl, dl
+    inc dh
+no_line_break:
+    mov ah, 02h
+    int 10h
+ret
 ; https://en.wikipedia.org/wiki/BIOS_interrupt_call#INT_18h:_execute_BASIC
 exec_BASIC:
     int 18h

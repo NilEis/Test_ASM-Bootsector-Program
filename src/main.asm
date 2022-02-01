@@ -18,6 +18,7 @@ call set_pixel
 mov ah, al
 push ax
 mov ah, 0x00
+xor al, al
 int 0x16
 cmp al, 'q'
 je inc_colour
@@ -25,9 +26,20 @@ cmp al, 'e'
 je dec_colour
 cmp al, 's'
 je down
-ja up
+cmp al, 'w'
+je up
 cmp al, 'a'
 je left
+cmp al, 'd'
+je right
+cmp al, ' '
+jne loop
+call set_16_color_text_mode
+mov bp, exit_str
+call print
+cli
+hlt
+right:
 add cx,1
 pop ax
 jmp loop
@@ -65,6 +77,8 @@ fcr_inner_loop:
     cmp dx, 50
     jl fcr_outer_loop
 ret
+
+exit_str: db "exit", 0
 
 %include "src/screen.asm"
 times 510-($-$$) db 0     ; Fill rest of bootsector with 0
