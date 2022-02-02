@@ -1,3 +1,4 @@
+use16
 ; Set bp to the address of the String
 ; and cx to the String length
 print_string:

@@ -2,9 +2,11 @@
  A simple OS-Kernel
 
 ## Compile and run .asm files
-```Bash
+```bash
 # Build
-nasm src/main.asm -f bin -o bin/boot_sector.bin
+fasm src/main.asm bin/boot_sector.bin
 # Run
 qemu-system-x86_64 bin/boot_sector.bin
+# Build and run
+fasm src/main.asm bin/boot_sector.bin && qemu-system-x86_64 bin/boot_sector.bin
 ```

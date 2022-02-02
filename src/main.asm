@@ -1,12 +1,12 @@
-[bits 16]                 ; Set 16 bit mode
-[org 0x7c00]              ; Offset added to all adresses
+use16              ; Set 16 bit mode
+;[org 0x7c00]              ; Offset added to all adresses
 
 call set_vga_mode
 
 mov cx, 160
 mov dx, 100
 mov al, 05
-loop:
+main_loop:
 ; ---------------------------------------
 push cx                                ; Save cx
 push dx                                ; Save dx
@@ -33,36 +33,57 @@ je left
 cmp al, 'd'
 je right
 cmp al, ' '
-jne loop
+pop ax
+jne main_loop
 call set_16_color_text_mode
 mov bp, exit_str
 call print
+main_stop:
 cli
 hlt
-right:
-add cx,1
-pop ax
-jmp loop
-left:
-sub cx,1
-pop ax
-jmp loop
-up:
-sub dx,1
-pop ax
-jmp loop
-down:
-add dx,1
-pop ax
-jmp loop
-inc_colour:
-pop ax
-inc al
-jmp loop
-dec_colour:
-pop ax
-dec al
-jmp loop
+jmp main_stop
+;right
+;---------------
+right:        ;|
+add cx,1      ;|
+pop ax        ;|
+jmp main_loop ;|
+;---------------
+;left
+;---------------
+left:         ;|
+sub cx,1      ;|
+pop ax        ;|
+jmp main_loop ;|
+;---------------
+;up
+;---------------
+up:           ;|
+sub dx,1      ;|
+pop ax        ;|
+jmp main_loop ;|
+;---------------
+;down
+;---------------
+down:         ;|
+add dx,1      ;|
+pop ax        ;|
+jmp main_loop ;|
+;---------------
+;inc_color
+;---------------
+inc_colour:   ;|
+pop ax        ;|
+inc al        ;|
+jmp main_loop ;|
+;---------------
+;dec_color
+;---------------
+dec_colour:   ;|
+pop ax        ;|
+dec al        ;|
+jmp main_loop ;|
+;---------------
 
 fill_colour_rect:
     mov dx, 10
@@ -80,7 +101,7 @@ ret
 
 exit_str: db "exit", 0
 
-%include "src/screen.asm"
+include "src/screen.asm"
 times 510-($-$$) db 0     ; Fill rest of bootsector with 0
 dw 0xaa55                 ; Set the last to 0xaa55
 times 1474560-($-$$) db 0 ; Resize file to 1.4 mb (Floppy)
