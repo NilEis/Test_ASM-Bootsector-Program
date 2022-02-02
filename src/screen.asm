@@ -14,11 +14,15 @@ print_string:
 ret
 
 ; Set bp to the address of the string
+
+print_string_pointer: dw '#'
+
 print:
     mov ah, 03h
     xor bh, bh
     int 10h
     mov cx, 1
+    mov bp, [print_string_pointer]
     print_loop:
         mov al, [bp]
         cmp al, 0

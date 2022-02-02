@@ -8,15 +8,15 @@ mov dx, 100
 mov al, 05
 main_loop:
 ; ---------------------------------------
-push cx                                ; Save cx
-push dx                                ; Save dx
+push word cx                                ; Save cx
+push word dx                                ; Save dx
 call fill_colour_rect                  ; 
-pop dx                                 ; Restore dx
-pop cx                                 ; Restore cx
+pop word dx                                 ; Restore dx
+pop word cx                                 ; Restore cx
 ; ---------------------------------------
 call set_pixel
 mov ah, al
-push ax
+push word ax
 mov ah, 0x00
 xor al, al
 int 0x16
@@ -33,10 +33,10 @@ je left
 cmp al, 'd'
 je right
 cmp al, ' '
-pop ax
+pop word ax
 jne main_loop
 call set_16_color_text_mode
-mov bp, exit_str
+mov word [print_string_pointer], word exit_str
 call print
 main_stop:
 cli
@@ -46,41 +46,41 @@ jmp main_stop
 ;---------------
 right:        ;|
 add cx,1      ;|
-pop ax        ;|
+pop word ax        ;|
 jmp main_loop ;|
 ;---------------
 ;left
 ;---------------
 left:         ;|
 sub cx,1      ;|
-pop ax        ;|
+pop word ax        ;|
 jmp main_loop ;|
 ;---------------
 ;up
 ;---------------
 up:           ;|
 sub dx,1      ;|
-pop ax        ;|
+pop word ax        ;|
 jmp main_loop ;|
 ;---------------
 ;down
 ;---------------
 down:         ;|
 add dx,1      ;|
-pop ax        ;|
+pop word ax        ;|
 jmp main_loop ;|
 ;---------------
 ;inc_color
 ;---------------
 inc_colour:   ;|
-pop ax        ;|
+pop word ax        ;|
 inc al        ;|
 jmp main_loop ;|
 ;---------------
 ;dec_color
 ;---------------
 dec_colour:   ;|
-pop ax        ;|
+pop word ax        ;|
 dec al        ;|
 jmp main_loop ;|
 ;---------------
@@ -104,4 +104,4 @@ exit_str: db "exit", 0
 include "src/screen.asm"
 times 510-($-$$) db 0     ; Fill rest of bootsector with 0
 dw 0xaa55                 ; Set the last to 0xaa55
-times 1474560-($-$$) db 0 ; Resize file to 1.4 mb (Floppy)
+;times 1474560-($-$$) db 0 ; Resize file to 1.4 mb (Floppy)
